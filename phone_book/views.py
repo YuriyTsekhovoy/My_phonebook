@@ -19,7 +19,7 @@ def sign_detail(request, pk):
 
 
 def sign_new(request):
-    if request.method == "POST":
+    if request.method == 'POST':
         form = SignForm(request.POST)
         if form.is_valid():
             post = form.save(commit=False)
@@ -29,23 +29,8 @@ def sign_new(request):
         form = SignForm()
     return render(request, 'phone_book/sign_edit.html', {'form': form})
 
-'''
-def phone_new(request):
-    if request.method == "POST":
-        form = NumberForm(request.POST)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.save()
-            return redirect('sign_detail', pk=post.pk)
-    else:
-        form = NumberForm()
-    return render(request, 'ph_book/sign_detail.html', {'form': form})
-'''
-
 
 def sign_edit(request, pk):
-    #post = get_list_or_404(Phone_Number, name_id)
-    #name = Sign_Name.objects.get(id=pk)
     if request.method == "POST":
         form = NumberForm(request.POST)
         if form.is_valid():
@@ -62,6 +47,7 @@ def sign_delete(request, pk):
     sign = SignName.objects.get(id=pk)
     sign.delete()
     return redirect('sign_list')
+
 
 def sign_copy(request, pk):
     sign = SignName.objects.get(id=pk)

@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from . import views
 
+#app_name = "phone_book"
 urlpatterns = [
     url(r'^$', views.sign_list, name='sign_list'),
     url(r'^sign/(?P<pk>[0-9]+)/$', views.sign_detail, name='sign_detail'),
