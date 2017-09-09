@@ -48,8 +48,9 @@ def sign_delete(request, pk):
     sign.delete()
     return redirect('sign_list')
 
-
+'''
 def sign_copy(request, pk):
     sign = SignName.objects.get(id=pk)
     sign.save()
     return redirect('sign_list')
+'''
