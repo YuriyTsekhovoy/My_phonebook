@@ -1,0 +1,17 @@
+{% extends 'phone_book/base.html' %}
+
+{% block content %}
+    {% if sign_list%}
+        <div>
+            {% for notation in sign_list %}
+                <li><a href="{% url 'phone_book:detail' notation.id %}">{{notation.sign_name}}</a></li>
+            {% endfor %}
+            
+        </div>
+    {% else %}
+        <p>No signs available.</p>
+    {% endif %}
+
+    <h3><a href="edit">Add new sign</h3>
+
+{% endblock %}

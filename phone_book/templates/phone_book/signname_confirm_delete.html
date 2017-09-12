@@ -1,0 +1,9 @@
+{% extends 'phone_book/base.html' %}
+
+{% block content %}
+    <form action="" method="post">{% csrf_token %}
+    <p>Are you sure you want to delete sign named "{{ object }}"?</p>
+    <input type="submit" value="Confirm" />
+</form>
+        
+{% endblock %}
