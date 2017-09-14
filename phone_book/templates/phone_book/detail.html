@@ -2,9 +2,9 @@
 
 {% block content %}
     <div >
-        <h2>{{numbers.0.name}}'s numbers</h2>
+        <h2>{{numbers.sign_name}}'s numbers</h2>
 
-        {% for num in numbers %}
+        {% for num in numbers.phonenumber_set.all %}
         {% if num.is_mobile %}
             <li>{{num.number}} мобильный</li>
         {% else %}
@@ -13,9 +13,9 @@
         {% endfor %}
     </div>
 
-        <h3><a href="/sign/{{numbers.0.name_id}}/edit">Add new number</h3>
+        <h3><a href="/sign/{{ numbers.id }}/edit">Add new number</h3>
 
-        <h3><a href="/sign/{{numbers.0.name_id}}/delete">Delete this sign</h3>
+        <h3><a href="/sign/{{ numbers.id }}/delete">Delete this sign</h3>
         
 {% endblock %}
 

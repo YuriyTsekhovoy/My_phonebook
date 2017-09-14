@@ -1,6 +1,7 @@
 from django.views import generic
 
 from .models import SignName, PhoneNumber
+from .forms import NumberForm
 
 # Create your views here.
 
@@ -12,17 +13,18 @@ class IndexView(generic.ListView):
 
 
 class DetailView(generic.ListView):
-    model = PhoneNumber
+    model = SignName
     template_name = 'phone_book/detail.html'
     context_object_name = 'numbers'
 
     def get_queryset(self):
-        return PhoneNumber.objects.filter(name_id=self.kwargs['pk'])
+        return SignName.objects.get(id=self.kwargs['pk'])
 
 
 class EditNumberView(generic.CreateView):
     model = PhoneNumber
-    fields = ['number', 'is_mobile']
+    fields = ['name', 'number', 'is_mobile']
+    #form_class = NumberForm
     template_name = 'phone_book/edit.html'
     success_url = '/'
 
