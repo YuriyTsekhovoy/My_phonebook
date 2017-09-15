@@ -1,4 +1,6 @@
 from django.test import TestCase
+from django.urls import reverse
+import random
 
 from .models import PhoneNumber, SignName
 
@@ -9,23 +11,53 @@ def create_sign(sign_name):
     """
     Create a sign in the phonebook with the given 'sign_name'
     """
-    return SignName.objects.create(sign_name=sign_name)
+    for i in range(1, 6):
+        SignName.objects.create(sign_name=sign_name+str(i))
+    pass
 
 
-def add_number(number, is_mobile=True):
+def add_number(name, qty):
     """
-    Create a new number in sign with given 'number' and 'is_mobile' mark
+    Create a 5 new random numbers in each sign startswith given 'name' 
     """
-    return PhoneNumber.objects.create(number=number, is_mobile=is_mobile)
+    robots = SignName.objects.filter(sign_name__startswith=name)
+    for robot in robots:
+        name_id = SignName.objects.get(sign_name=robot).id
+        for i in range(qty):
+            PhoneNumber.objects.create(
+                name_id=name_id,
+                is_mobile=random.choice([True, False]),
+                number='+380'+str(random.randint(100000000, 999999999)))
+    pass
 
 
-def delete_sign(sign_name):
+def delete_sign(name):
     """
-    Delete a sign in the phonebook with the given 'sign_name'
+    Delete a sign in the phonebook startswith given 'name'
     """
-    return SignName.objects.delete(sign_name=sign_name)
+    del_sign = SignName.objects.filter(sign_name__icontains=name)
+    del_sign.delete()
+    pass
+
+
+def delete_last_number(few):
+    """
+    Delete last 'few' numbers in sign
+    """
+    last_five_numbers = PhoneNumber.objects.order_by("-id")[:few]
+    for number in last_five_numbers:
+        number.delete()
+    pass
 
 
 class SignDetailViewTests(TestCase):
 
-    def test_
+    def test_no_phonenumbers(self):
+        """
+        If no phonenumbers exist, an appropriate message is displayed.
+        """
+        response = self.client.get(reverse('index'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContailns(
+            response, "No phone numbers are availabile")
+        self.assertQuerysetEqual(response.context['sign_list'], [])
